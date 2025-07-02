@@ -15,6 +15,23 @@ class MyprofileScreen extends StatefulWidget {
 }
 
 class _MyprofileScreenState extends State<MyprofileScreen> {
+  String? displayName;
+  String? email;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      AuthService().getUserData(user.uid).then((userData) {
+        setState(() {
+          displayName = userData['displayName'];
+          email = userData['email'];
+        });
+      });
+    }
+  }
+
   void logOut() async {
     try {
       await AuthService().signOut();
@@ -84,16 +101,16 @@ class _MyprofileScreenState extends State<MyprofileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'JohnDoe',
+                                '$displayName',
                                 style: GoogleFonts.roboto(
                                   fontSize: 18,
                                   color: Colors.black,
                                 ),
                               ),
                               Text(
-                                'yourmail@gmail.com',
+                                '$email',
                                 style: GoogleFonts.roboto(
-                                  fontSize: 18,
+                                  fontSize: 15.5,
                                   color: Colors.black,
                                 ),
                               ),

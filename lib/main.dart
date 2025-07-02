@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habit/logic/OCR/ocr_bloc.dart';
+import 'package:habit/logic/auth/auth_bloc.dart';
 import 'package:habit/logic/navigation/navigation_bar_bloc.dart';
 import 'package:habit/logic/onBoarding/onboarding_bloc.dart';
 import 'package:habit/screens/OCR/ocr_screen.dart';
@@ -18,6 +19,7 @@ import 'package:habit/screens/myProfile/myProfile_screen.dart';
 import 'package:habit/screens/onBoarding/onBoarding_screen.dart';
 import 'package:habit/screens/settings/settings_screen.dart';
 import 'package:habit/screens/splash/splash_screen.dart';
+import 'package:habit/services/auth_service/auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +30,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => AuthBloc(authService: AuthService())),
         BlocProvider(create: (_) => OnboardingBloc()),
         BlocProvider(create: (_) => NavigationBloc()),
         BlocProvider(create: (_) => OcrBloc()),
