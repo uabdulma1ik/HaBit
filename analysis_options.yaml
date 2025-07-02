@@ -1,0 +1,17 @@
+analyzer:
+  errors:
+    file_names: ignore
+
+linter:
+  rules:
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables
+    - prefer_const_declarations
+    - avoid_unnecessary_containers   
+    - use_key_in_widget_constructors 
+    - avoid_empty_else               
+    - prefer_single_quotes           
+    - unnecessary_this               
+    - avoid_init_to_null             
+    - prefer_final_fields            
+    - avoid_field_initializers_in_const_classes 
