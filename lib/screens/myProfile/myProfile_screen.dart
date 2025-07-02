@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:habit/screens/widgets/customDialog.dart';
 import 'package:habit/services/auth_service/auth_service.dart';
 
-
 class MyprofileScreen extends StatefulWidget {
   const MyprofileScreen({super.key});
 
@@ -203,44 +202,43 @@ class _MyprofileScreenState extends State<MyprofileScreen> {
               top: 424,
               left: 36,
               right: 36,
-              child: Container(
-                alignment: Alignment.center,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFB347),
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      offset: const Offset(0, 4),
-                      blurRadius: 8,
-                    ),
-                  ],
+              child: GestureDetector(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => MyCustomDialog(
+                    title: 'LOG OUT',
+                    message: 'Do you really want this action?',
+                    cancelText: 'No',
+                    confirmText: 'Yes',
+                    onCancel: () {
+                      Navigator.of(context).pop();
+                    },
+                    onConfirm: () {
+                      Navigator.of(context).pop();
+                      logOut();
+                    },
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 15,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => MyCustomDialog(
-                            title: 'LOG OUT',
-                            message: 'Do you really want this action?',
-                            cancelText: 'No',
-                            confirmText: 'Yes',
-                            onCancel: () {
-                              Navigator.of(context).pop();
-                            },
-                            onConfirm: () {
-                              Navigator.of(context).pop();
-                              logOut();
-                            },
-                          ),
-                        );
-                      },
-                      child: Container(
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFB347),
+                    borderRadius: BorderRadius.circular(100),
+                    boxShadow: [
+                      BoxShadow(
+                        // ignore: deprecated_member_use
+                        color: Colors.black.withOpacity(0.1),
+                        offset: const Offset(0, 4),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 15,
+                    children: [
+                      Container(
                         height: 36,
                         width: 36,
                         alignment: Alignment.center,
@@ -249,15 +247,15 @@ class _MyprofileScreenState extends State<MyprofileScreen> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                    Text(
-                      'LOG OUT',
-                      style: GoogleFonts.roboto(
-                        fontSize: 18,
-                        color: Colors.white,
+                      Text(
+                        'LOG OUT',
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
