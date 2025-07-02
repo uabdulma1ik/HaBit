@@ -8,11 +8,12 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService authService;
-
+  bool _isPasswordVisible = false;
   AuthBloc({required this.authService}) : super(AuthInitial()) {
     on<LoginEvent>(_onLogin);
     on<CreateAccountEvent>(_onCreateAccount);
     on<ResetPasswordEvent>(_onResetPassword);
+    on<TogglePasswordVisibilityEvent>(_onTogglePasswordVisibility);
   }
 
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
@@ -59,5 +60,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       emit(const AuthFailure(message: 'An unexpected error occurred'));
     }
+  }
+
+  Future<void> _onTogglePasswordVisibility(
+    TogglePasswordVisibilityEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    _isPasswordVisible = !_isPasswordVisible;
+    emit(PasswordVisibilityState(isVisible: _isPasswordVisible));
   }
 }

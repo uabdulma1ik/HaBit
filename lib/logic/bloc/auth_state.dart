@@ -23,3 +23,12 @@ class AuthFailure extends AuthState {
   @override
   List<Object> get props => [message];
 }
+
+class PasswordVisibilityState extends AuthState {
+  final bool isVisible;
+
+  const PasswordVisibilityState({required this.isVisible});
+
+  @override
+  List<Object> get props => [isVisible];
+}

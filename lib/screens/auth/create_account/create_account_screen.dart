@@ -4,21 +4,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:habit/logic/auth/auth_bloc.dart';
+import 'package:habit/logic/bloc/auth_bloc.dart';
 import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
 
-
-class CreateAccountScreen extends StatelessWidget {
+class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final TextEditingController _confirmPasswordController = TextEditingController();
-    bool _isPasswordVisible = false;
+  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
+}
 
+class _CreateAccountScreenState extends State<CreateAccountScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
@@ -198,12 +210,17 @@ class CreateAccountScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 15),
                           Expanded(
-                            child: StatefulBuilder(
-                              builder: (context, setState) {
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                final isVisible =
+                                    state is PasswordVisibilityState
+                                    ? state.isVisible
+                                    : false;
+
                                 return TextField(
                                   cursorColor: const Color(0xFFFFB347),
                                   controller: _passwordController,
-                                  obscureText: !_isPasswordVisible,
+                                  obscureText: !isVisible,
                                   style: GoogleFonts.roboto(
                                     color: Colors.grey,
                                     fontSize: 18,
@@ -217,15 +234,15 @@ class CreateAccountScreen extends StatelessWidget {
                                     ),
                                     suffixIcon: IconButton(
                                       icon: Icon(
-                                        _isPasswordVisible
+                                        isVisible
                                             ? Icons.visibility
                                             : Icons.visibility_off,
                                         color: Colors.grey,
                                       ),
                                       onPressed: () {
-                                        setState(() {
-                                          _isPasswordVisible = !_isPasswordVisible;
-                                        });
+                                        context.read<AuthBloc>().add(
+                                          const TogglePasswordVisibilityEvent(),
+                                        );
                                       },
                                     ),
                                   ),
@@ -247,22 +264,31 @@ class CreateAccountScreen extends StatelessWidget {
                         children: [
                           const SizedBox(width: 54),
                           Expanded(
-                            child: TextField(
-                              cursorColor: const Color(0xFFFFB347),
-                              obscureText: !_isPasswordVisible,
-                              style: GoogleFonts.roboto(
-                                color: Colors.grey,
-                                fontSize: 18,
-                              ),
-                              controller: _confirmPasswordController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Confirm Password',
-                                hintStyle: GoogleFonts.roboto(
-                                  color: Colors.grey,
-                                  fontSize: 18,
-                                ),
-                              ),
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                final isVisible =
+                                    state is PasswordVisibilityState
+                                    ? state.isVisible
+                                    : false;
+
+                                return TextField(
+                                  cursorColor: const Color(0xFFFFB347),
+                                  obscureText: !isVisible,
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                  ),
+                                  controller: _confirmPasswordController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Confirm Password',
+                                    hintStyle: GoogleFonts.roboto(
+                                      color: Colors.grey,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -356,17 +382,21 @@ class CreateAccountScreen extends StatelessWidget {
                 left: 36,
                 child: GestureDetector(
                   onTap: () {
-                    if (_passwordController.text != _confirmPasswordController.text) {
-                      CustomSnackbar(context: context, message: 'Passwords do not match').show();
+                    if (_passwordController.text !=
+                        _confirmPasswordController.text) {
+                      CustomSnackbar(
+                        context: context,
+                        message: 'Passwords do not match',
+                      ).show();
                       return;
                     }
                     context.read<AuthBloc>().add(
-                          CreateAccountEvent(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                            displayName: _nameController.text.trim(),
-                          ),
-                        );
+                      CreateAccountEvent(
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text.trim(),
+                        displayName: _nameController.text.trim(),
+                      ),
+                    );
                   },
                   child: BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
@@ -387,7 +417,9 @@ class CreateAccountScreen extends StatelessWidget {
                           ],
                         ),
                         child: state is AuthLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
                             : Text(
                                 'CREATE ACCOUNT',
                                 style: GoogleFonts.roboto(

@@ -4,9 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:habit/logic/auth/auth_bloc.dart';
+import 'package:habit/logic/bloc/auth_bloc.dart';
 import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
-
 
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
@@ -15,7 +14,6 @@ class LogInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
-    bool _isPasswordVisible = false;
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
@@ -155,12 +153,17 @@ class LogInScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 15),
                           Expanded(
-                            child: StatefulBuilder(
-                              builder: (context, setState) {
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                final isVisible =
+                                    state is PasswordVisibilityState
+                                    ? state.isVisible
+                                    : false;
+
                                 return TextField(
                                   cursorColor: const Color(0xFFFFB347),
                                   controller: _passwordController,
-                                  obscureText: !_isPasswordVisible,
+                                  obscureText: !isVisible,
                                   style: GoogleFonts.roboto(
                                     color: Colors.grey,
                                     fontSize: 18,
@@ -174,15 +177,15 @@ class LogInScreen extends StatelessWidget {
                                     ),
                                     suffixIcon: IconButton(
                                       icon: Icon(
-                                        _isPasswordVisible
+                                        isVisible
                                             ? Icons.visibility
                                             : Icons.visibility_off,
                                         color: Colors.grey,
                                       ),
                                       onPressed: () {
-                                        setState(() {
-                                          _isPasswordVisible = !_isPasswordVisible;
-                                        });
+                                        context.read<AuthBloc>().add(
+                                          const TogglePasswordVisibilityEvent(),
+                                        );
                                       },
                                     ),
                                   ),
@@ -251,11 +254,11 @@ class LogInScreen extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     context.read<AuthBloc>().add(
-                          LoginEvent(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          ),
-                        );
+                      LoginEvent(
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text.trim(),
+                      ),
+                    );
                   },
                   child: BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
@@ -276,7 +279,9 @@ class LogInScreen extends StatelessWidget {
                           ],
                         ),
                         child: state is AuthLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
                             : Text(
                                 'LOG IN',
                                 style: GoogleFonts.roboto(

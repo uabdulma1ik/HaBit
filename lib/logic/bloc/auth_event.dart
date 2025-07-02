@@ -40,3 +40,7 @@ class ResetPasswordEvent extends AuthEvent {
   @override
   List<Object> get props => [email];
 }
+
+class TogglePasswordVisibilityEvent extends AuthEvent {
+  const TogglePasswordVisibilityEvent();
+}
