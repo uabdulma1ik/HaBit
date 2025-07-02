@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
 import 'package:habit/services/auth_service/auth_service.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -37,6 +38,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         password: _passwordController.text,
       );
       if (context.mounted) {
+        CustomSnackbar(context: context, message: 'Please wait...').show();
         context.go('/wrapper');
       }
     } on FirebaseAuthException catch (e) {
@@ -368,6 +370,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             Positioned(
               top: 705,
               left: 36,
+
               child: GestureDetector(
                 onTap: () async {
                   register();

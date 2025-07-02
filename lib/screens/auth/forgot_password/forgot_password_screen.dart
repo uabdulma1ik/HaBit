@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
+import 'package:habit/services/auth_service/auth_service.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -18,6 +21,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void dispose() {
     _emailController.dispose();
     super.dispose();
+  }
+
+  void resetPassword() async {
+    try {
+      AuthService().resetPassword(email: _emailController.text);
+      if (context.mounted) {
+        CustomSnackbar(context: context, message: 'Submitted').show();
+        context.go('/logIn');
+      }
+    } on FirebaseAuthException catch (e) {
+      CustomSnackbar(context: context, message: e.toString()).show();
+      print(e.message);
+    }
   }
 
   @override
@@ -39,7 +55,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                    context.go('/logIn');
+                      context.go('/logIn');
                     },
                     child: SizedBox(
                       height: 24,
@@ -132,7 +148,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               top: 705,
               left: 36,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  resetPassword();
+                },
                 child: Container(
                   alignment: Alignment.center,
                   width: 343,

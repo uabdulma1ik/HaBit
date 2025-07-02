@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
 import 'package:habit/services/auth_service/auth_service.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -33,6 +34,7 @@ class _LogInScreenState extends State<LogInScreen> {
         password: _passwordController.text,
       );
       if (context.mounted) {
+        CustomSnackbar(context: context, message: 'Logged In').show();
         context.go('/home');
       }
     } on FirebaseAuthException catch (e) {
