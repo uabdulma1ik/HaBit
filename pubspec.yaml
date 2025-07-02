@@ -61,9 +61,10 @@ flutter:
     - assets/images/
     - assets/svg/
     - assets/icons/
-  
-
   fonts:
     - family: FugazOne
       fonts:
         - asset: assets/fonts/FugazOne.ttf
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito.ttf

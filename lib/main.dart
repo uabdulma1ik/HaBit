@@ -11,16 +11,17 @@ import 'package:habit/logic/navigation/navigation_bar_bloc.dart';
 import 'package:habit/logic/onBoarding/onboarding_bloc.dart';
 import 'package:habit/screens/OCR/ocr_screen.dart';
 import 'package:habit/screens/about/about_screen.dart';
+import 'package:habit/screens/add_note/add_note_screen.dart';
 import 'package:habit/screens/auth/Log_in/log_in_screen.dart';
 import 'package:habit/screens/auth/create_account/create_account_screen.dart';
 import 'package:habit/screens/auth/forgot_password/forgot_password_screen.dart';
+import 'package:habit/screens/splash/splash_screen.dart';
 import 'package:habit/screens/wrapper/wrapper.dart';
 import 'package:habit/screens/help/help_screen.dart';
 import 'package:habit/screens/nav_bar/navigation.dart';
 import 'package:habit/screens/myProfile/myProfile_screen.dart';
 import 'package:habit/screens/onBoarding/onBoarding_screen.dart';
 import 'package:habit/screens/settings/settings_screen.dart';
-import 'package:habit/screens/splash/splash_screen.dart';
 import 'package:habit/services/auth_service/auth_service.dart';
 
 void main() async {
@@ -33,6 +34,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthBloc(authService: AuthService())),
+        // BlocProvider(create: (_) => NoteBloc()),
         BlocProvider(create: (_) => OnboardingBloc()),
         BlocProvider(create: (_) => NavigationBloc()),
         BlocProvider(create: (_) => OcrBloc()),
@@ -84,6 +86,7 @@ class MyApp extends StatelessWidget {
           path: '/forgot',
           builder: (context, state) => const ForgotPasswordScreen(),
         ),
+        GoRoute(path: '/addNote', builder: (context, state) => const AddNoteScreen()),
         GoRoute(path: '/wrapper', builder: (context, state) => const Wrapper()),
       ],
     );

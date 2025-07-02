@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit/screens/widgets/custom_dialog/custom_dialog_open_smth.dart';
 import 'package:habit/screens/home/widgets/colour_filter_sheet.dart';
@@ -19,15 +20,16 @@ class HomeScreen extends StatelessWidget {
             ),
             contentPadding: EdgeInsets.zero,
             content: CustomDialogOpenSmth(
-              topPath: 'assets/icons/check_box_black.png',
-              topString: 'Add to-do',
-              bottomPath: 'assets/icons/keyboard_black.png',
-              bottomString: 'Add note',
+              topPath: 'assets/icons/keyboard_black.png',
+              topString: 'Add note',
+              bottomPath: 'assets/icons/check_box_black.png',
+              bottomString: 'Add to-do',
               onTopFunc: () {
-                Navigator.of(context).pop();
+                context.pop();
+                context.push('/addNote');
               },
               onBottomFunc: () {
-                Navigator.of(context).pop();
+                context.pop();
               },
             ),
           );

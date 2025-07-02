@@ -48,29 +48,6 @@ class CustomDialogOpenSmth extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: onBottomFunc,
-                child: Row(
-                  children: [
-                    Image.asset(
-                      bottomPath,
-                      width: 24,
-                      height: 24,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      bottomString,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              GestureDetector(
                 onTap: onTopFunc,
                 child: Row(
                   children: [
@@ -83,6 +60,29 @@ class CustomDialogOpenSmth extends StatelessWidget {
                     const SizedBox(width: 16),
                     Text(
                       topString,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              GestureDetector(
+                onTap: onBottomFunc,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      bottomPath,
+                      width: 24,
+                      height: 24,
+                      fit: BoxFit.cover,
+                    ),
+                    const SizedBox(width: 16),
+                    Text(
+                      bottomString,
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 22,
