@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit/screens/home/widgets/colour_filter_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -52,13 +53,21 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             actions: [
-              SizedBox(
-                height: 24,
-                width: 24,
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/color_lens.png',
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const ColourFilterDialog(),
+                  );
+                },
+                child: SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/color_lens.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
