@@ -23,7 +23,7 @@ class CustomSnackbar {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 229, 224, 224),
+              color: const Color.fromARGB(255, 239, 237, 237),
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(

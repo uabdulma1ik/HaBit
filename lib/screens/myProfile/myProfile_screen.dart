@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit/screens/widgets/customDialog.dart';
+import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
 import 'package:habit/services/auth_service/auth_service.dart';
 
 class MyprofileScreen extends StatefulWidget {
@@ -216,6 +217,10 @@ class _MyprofileScreenState extends State<MyprofileScreen> {
                     onConfirm: () {
                       Navigator.of(context).pop();
                       logOut();
+                      CustomSnackbar(
+                        context: context,
+                        message: 'Logged Out',
+                      ).show();
                     },
                   ),
                 ),

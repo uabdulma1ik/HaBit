@@ -19,7 +19,6 @@ import 'package:habit/screens/onBoarding/onBoarding_screen.dart';
 import 'package:habit/screens/settings/settings_screen.dart';
 import 'package:habit/screens/splash/splash_screen.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -79,10 +78,7 @@ class MyApp extends StatelessWidget {
           path: '/forgot',
           builder: (context, state) => const ForgotPasswordScreen(),
         ),
-          GoRoute(
-          path: '/wrapper',
-          builder: (context, state) => const Wrapper(),
-        ),
+        GoRoute(path: '/wrapper', builder: (context, state) => const Wrapper()),
       ],
     );
 
