@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit/services/auth_service/auth_service.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -20,9 +22,22 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   void dispose() {
     _passwordController.dispose();
-
     _emailController.dispose();
     super.dispose();
+  }
+
+  void signIn() {
+    try {
+      AuthService().signIn(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      if (context.mounted) {
+        context.go('/home');
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
   }
 
   @override
@@ -247,7 +262,9 @@ class _LogInScreenState extends State<LogInScreen> {
               top: 705,
               left: 36,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  signIn();
+                },
                 child: Container(
                   alignment: Alignment.center,
                   width: 343,
