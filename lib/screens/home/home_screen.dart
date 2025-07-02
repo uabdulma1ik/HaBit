@@ -87,8 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 209,
-                  width: 207,
+                  height: 200,
+                  width: 198,
                   child: Image.asset(
                     'assets/images/rafiki.png',
                     fit: BoxFit.cover,

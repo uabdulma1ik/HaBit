@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habit/logic/OCR/ocr_bloc.dart';
 import 'package:habit/logic/auth/auth_bloc.dart';
+import 'package:habit/logic/my_profile/my_profile_bloc.dart';
+import 'package:habit/logic/my_profile/my_profile_event.dart';
 import 'package:habit/logic/navigation/navigation_bar_bloc.dart';
 import 'package:habit/logic/onBoarding/onboarding_bloc.dart';
 import 'package:habit/screens/OCR/ocr_screen.dart';
@@ -34,6 +36,7 @@ void main() async {
         BlocProvider(create: (_) => OnboardingBloc()),
         BlocProvider(create: (_) => NavigationBloc()),
         BlocProvider(create: (_) => OcrBloc()),
+        BlocProvider(create: (_) => MyProfileBloc()..add(LoadProfile())),
       ],
       child: const MyApp(),
     ),
