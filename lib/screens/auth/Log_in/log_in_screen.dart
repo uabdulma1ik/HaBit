@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit/logic/auth/auth_bloc.dart';
-import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
+import 'package:habit/screens/widgets/custom_snackbar/customSnackbar.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});

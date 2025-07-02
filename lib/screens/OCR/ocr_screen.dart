@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit/logic/OCR/ocr_bloc.dart';
 import 'package:habit/logic/OCR/ocr_event.dart';
 import 'package:habit/logic/OCR/ocr_state.dart';
-import 'package:habit/screens/OCR/widgets/ImgSourceDialog.dart';
-import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
+import 'package:habit/screens/OCR/widgets/img_source_dialog.dart';
+import 'package:habit/screens/widgets/custom_snackbar/customSnackbar.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class OcrScreen extends StatelessWidget {

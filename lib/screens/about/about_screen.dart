@@ -32,7 +32,6 @@ class AboutScreen extends StatelessWidget {
                     Positioned(
                       top: 46,
                       left: 36,
-
                       child: Row(
                         children: [
                           GestureDetector(

@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit/logic/my_profile/my_profile_bloc.dart';
 import 'package:habit/logic/my_profile/my_profile_state.dart';
-import 'package:habit/screens/widgets/customDialog.dart';
-import 'package:habit/screens/widgets/customSnackbar.dart/customSnackbar.dart';
+import 'package:habit/screens/widgets/custom_dialog/customDialog.dart';
+import 'package:habit/screens/widgets/custom_snackbar/customSnackbar.dart';
 import 'package:habit/services/auth_service/auth_service.dart';
 import 'package:shimmer/shimmer.dart';
 

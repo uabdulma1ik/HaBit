@@ -24,7 +24,7 @@ class ImgSourceDialog extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // <-- CHAPGA HIZALASH
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
                 child: Text(

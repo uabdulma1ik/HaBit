@@ -16,7 +16,6 @@ class HelpScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
-
         body: Stack(
           children: [
             Positioned(
