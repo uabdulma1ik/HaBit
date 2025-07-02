@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit/screens/widgets/custom_dialog/custom_dialog_open_smth.dart';
 import 'package:habit/screens/home/widgets/colour_filter_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,6 +9,32 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _showImgDialog(BuildContext context) async {
+      await showDialog(
+        context: context,
+        builder: (dialogContext) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            contentPadding: EdgeInsets.zero,
+            content: CustomDialogOpenSmth(
+              topPath: 'assets/icons/check_box_black.png',
+              topString: 'Add to-do',
+              bottomPath: 'assets/icons/keyboard_black.png',
+              bottomString: 'Add note',
+              onTopFunc: () {
+                Navigator.of(context).pop();
+              },
+              onBottomFunc: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        },
+      );
+    }
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: const Color(0xFFFFB347),
@@ -33,7 +60,9 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                _showImgDialog(context);
+              },
               backgroundColor: const Color(0xFFFFB347),
               elevation: 0,
               shape: const CircleBorder(),

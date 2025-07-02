@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit/logic/OCR/ocr_bloc.dart';
 import 'package:habit/logic/OCR/ocr_event.dart';
 import 'package:habit/logic/OCR/ocr_state.dart';
-import 'package:habit/screens/OCR/widgets/img_source_dialog.dart';
+import 'package:habit/screens/widgets/custom_dialog/custom_dialog_open_smth.dart';
 import 'package:habit/screens/widgets/custom_snackbar/customSnackbar.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
@@ -65,8 +65,11 @@ class OcrScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<OcrBloc>().add(CopyTextToClipboard());
                       },
-                      icon:
-                          const Icon(Icons.copy, color: Colors.black, size: 24),
+                      icon: const Icon(
+                        Icons.copy,
+                        color: Colors.black,
+                        size: 24,
+                      ),
                     );
                   }
                   return const SizedBox.shrink();
@@ -157,20 +160,20 @@ class OcrScreen extends StatelessWidget {
                                 ),
                               )
                             : state.extractedText.isNotEmpty
-                                ? SelectableText(
-                                    state.extractedText,
-                                    style: const TextStyle(fontSize: 16),
-                                    textAlign: TextAlign.left,
-                                  )
-                                : const Text(
-                                    'Click the "Scan Image" button to perform scan',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
-                                  ),
+                            ? SelectableText(
+                                state.extractedText,
+                                style: const TextStyle(fontSize: 16),
+                                textAlign: TextAlign.left,
+                              )
+                            : const Text(
+                                'Click the "Scan Image" button to perform scan',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
                       );
                     },
                   ),
@@ -182,8 +185,9 @@ class OcrScreen extends StatelessWidget {
                           context.read<OcrBloc>().add(ClearAllData());
                         },
                         style: ButtonStyle(
-                          backgroundColor:
-                              const WidgetStatePropertyAll(Colors.white),
+                          backgroundColor: const WidgetStatePropertyAll(
+                            Colors.white,
+                          ),
                           elevation: const WidgetStatePropertyAll(0),
                           padding: const WidgetStatePropertyAll(
                             EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -210,9 +214,7 @@ class OcrScreen extends StatelessWidget {
                       const SizedBox(width: 32),
                       ElevatedButton(
                         onPressed: () {
-                          context
-                              .read<OcrBloc>()
-                              .add(ExtractTextFromImage());
+                          context.read<OcrBloc>().add(ExtractTextFromImage());
                         },
                         style: ButtonStyle(
                           backgroundColor: const WidgetStatePropertyAll(
@@ -264,12 +266,16 @@ class OcrScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
           ),
           contentPadding: EdgeInsets.zero,
-          content: ImgSourceDialog(
-            onTapCamera: () {
+          content: CustomDialogOpenSmth(
+            topPath: 'assets/icons/photo_camera_black.png',
+            topString: 'Take photo',
+            bottomPath: 'assets/icons/photo_library_black.png',
+            bottomString: 'Choose from Gallery',
+            onTopFunc: () {
               Navigator.of(context).pop();
               context.read<OcrBloc>().add(PickImageFromCamera());
             },
-            onTapGallery: () {
+            onBottomFunc: () {
               Navigator.of(context).pop();
               context.read<OcrBloc>().add(PickImageFromGallery());
             },

@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ImgSourceDialog extends StatelessWidget {
-  final VoidCallback onTapGallery;
-  final VoidCallback onTapCamera;
+class CustomDialogOpenSmth extends StatelessWidget {
+  final VoidCallback onTopFunc;
+  final VoidCallback onBottomFunc;
 
-  const ImgSourceDialog({
+  final String topString;
+  final String bottomString;
+
+  final String topPath;
+  final String bottomPath;
+
+  const CustomDialogOpenSmth({
     super.key,
-    required this.onTapGallery,
-    required this.onTapCamera,
+    required this.onTopFunc,
+    required this.onBottomFunc,
+    required this.topString,
+    required this.bottomString,
+    required this.topPath,
+    required this.bottomPath,
   });
 
   @override
@@ -38,19 +48,19 @@ class ImgSourceDialog extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: onTapCamera,
+                onTap: onBottomFunc,
                 child: Row(
                   children: [
                     Image.asset(
-                      'assets/icons/photo_camera_black.png',
+                      bottomPath,
                       width: 24,
                       height: 24,
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(width: 16),
-                    const Text(
-                      'Take photo',
-                      style: TextStyle(
+                    Text(
+                      bottomString,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 22,
                         fontWeight: FontWeight.w400,
@@ -61,19 +71,19 @@ class ImgSourceDialog extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               GestureDetector(
-                onTap: onTapGallery,
+                onTap: onTopFunc,
                 child: Row(
                   children: [
                     Image.asset(
-                      'assets/icons/photo_library_black.png',
+                      topPath,
                       width: 24,
                       height: 24,
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(width: 16),
-                    const Text(
-                      'Choose from Gallery',
-                      style: TextStyle(
+                    Text(
+                      topString,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 22,
                         fontWeight: FontWeight.w400,
