@@ -32,7 +32,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         NotesLoadedState(
           currentState.notes,
           searchQuery: currentState.searchQuery,
-
+         
           showColorPicker: currentState.showColorPicker,
           selectedColor: currentState.selectedColor,
           isGridView: event.isGridView,
@@ -112,7 +112,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       NotesLoadedState(
         currentState.notes,
         searchQuery: currentState.searchQuery,
-
+       
         showColorPicker: currentState.showColorPicker,
         selectedColor: event.color,
       ),
@@ -130,12 +130,13 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       NotesLoadedState(
         currentState.notes,
         searchQuery: currentState.searchQuery,
-
         showColorPicker: event.showPicker,
         selectedColor: currentState.selectedColor,
       ),
     );
   }
+
+
 
   Future<void> _onAddNote(AddNoteEvent event, Emitter<NoteState> emit) async {
     try {
