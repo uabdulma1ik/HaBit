@@ -56,7 +56,6 @@ class MyApp extends StatelessWidget {
       initialLocation: '/',
       routes: [
         GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
-
         GoRoute(
           path: '/onBoarding',
           builder: (context, state) => const OnboardingScreen(),
@@ -104,7 +103,6 @@ class MyApp extends StatelessWidget {
         GoRoute(path: '/wrapper', builder: (context, state) => const Wrapper()),
       ],
     );
-
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
