@@ -21,7 +21,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<UpdateNoteEvent>(_onUpdateNote);
     on<DeleteNoteEvent>(_onDeleteNote);
     on<SearchNotesEvent>(_onSearchNotes);
-    on<ToggleSearchEvent>(_onToggleSearch);
+    on<ToggleSearchEvent >(_onToggleSearch);
     on<SelectColorEvent>(_onSelectColor);
     on<ShowColorPickerEvent>(_onShowColorPicker);
   }
@@ -87,7 +87,11 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     SelectColorEvent event,
     Emitter<NoteState> emit,
   ) async {
-    if (state is! NotesLoadedState) return;
+    if (state is! NotesLoadedState) {
+      // If not in loaded state, create a new loaded state with the selected color
+      emit(NotesLoadedState([], selectedColor: event.color));
+      return;
+    }
 
     final currentState = state as NotesLoadedState;
     emit(

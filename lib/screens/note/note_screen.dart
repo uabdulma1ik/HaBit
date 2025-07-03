@@ -22,14 +22,20 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   late Note note;
   late TextEditingController titleController;
   late TextEditingController noteController;
-  late int color;
+
   @override
   void initState() {
     super.initState();
     note = widget.note;
-    color = note.color == 0xFFFFFFFF ? Colors.red.value : note.color;
     titleController = TextEditingController(text: note.title);
     noteController = TextEditingController(text: note.note);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final initialColor = note.color == 0xFFFFFFFF
+          ? note.color
+          : Colors.white.toARGB32();
+      context.read<NoteBloc>().add(SelectColorEvent(initialColor));
+    });
   }
 
   @override
@@ -55,6 +61,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: BlocBuilder<NoteBloc, NoteState>(
                 builder: (context, state) {
+                  final selectedColor = state is NotesLoadedState
+                      ? state.selectedColor
+                      : (note.color == 0xFFFFFFFF
+                            ? Colors.red.toARGB32()
+                            : note.color);
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -66,11 +78,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                               if (titleController.text.trim() !=
                                       note.title.trim() ||
                                   noteController.text.trim() !=
-                                      note.note.trim()) {
-                                final currentState =
-                                    context.read<NoteBloc>().state
-                                        as NotesLoadedState;
-
+                                      note.note.trim() ||
+                                  selectedColor != note.color) {
                                 final newNote = Note(
                                   id: note.id,
                                   title: titleController.text.trim(),
@@ -79,8 +88,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                       ? DateTime.now()
                                       : note.createdAt,
                                   updatedAt: DateTime.now(),
-                                  color: currentState
-                                      .selectedColor, // Use selected color from state
+                                  color: selectedColor,
                                 );
 
                                 if (note.id.isEmpty) {
@@ -106,7 +114,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           ),
                           const SizedBox(width: 20),
                           Text(
-                            'Add Note',
+                            note.id.isEmpty ? 'Add Note' : 'Edit Note',
                             style: GoogleFonts.roboto(
                               fontSize: 24,
                               color: Colors.black,
@@ -114,6 +122,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             ),
                           ),
                           const Spacer(),
+
                           GestureDetector(
                             onTap: () {
                               showDialog(
@@ -147,15 +156,14 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           fontSize: 42,
                           fontWeight: FontWeight.w600,
                         ),
-                        maxLines: null, // Allow multiple lines if needed
-                        keyboardType:
-                            TextInputType.multiline, // Enable multiline input
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Title',
                           hintStyle: GoogleFonts.nunito(
-                            color: Colors.black,
-                            fontSize: 48,
+                            color: Colors.black54,
+                            fontSize: 42,
                           ),
                         ),
                       ),
@@ -174,8 +182,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           border: InputBorder.none,
                           hintText: 'Type something...',
                           hintStyle: GoogleFonts.nunito(
-                            color: Colors.black,
-                            fontSize: 23,
+                            color: Colors.black54,
+                            fontSize: 20,
                           ),
                         ),
                       ),

@@ -23,8 +23,12 @@ class NoteCard extends StatelessWidget {
         padding: const EdgeInsets.only(top: 12, right: 17, bottom: 7, left: 17),
         decoration: BoxDecoration(
           color: Color(note.color),
+          border: note.color == 0xFFFFFFFF
+              ? Border.all(color: Colors.black, width: 1)
+              : null,
           borderRadius: BorderRadius.circular(12),
         ),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
