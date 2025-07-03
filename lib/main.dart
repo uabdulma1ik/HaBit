@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:habit/data/note_model.dart';
 import 'package:habit/logic/OCR/ocr_bloc.dart';
+import 'package:habit/logic/add_note/note_bloc.dart';
 import 'package:habit/logic/auth/auth_bloc.dart';
 import 'package:habit/logic/my_profile/my_profile_bloc.dart';
 import 'package:habit/logic/my_profile/my_profile_event.dart';
@@ -34,7 +36,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthBloc(authService: AuthService())),
-        // BlocProvider(create: (_) => NoteBloc()),
+        BlocProvider(create: (_) => NoteBloc()..add(LoadNotesEvent())),
         BlocProvider(create: (_) => OnboardingBloc()),
         BlocProvider(create: (_) => NavigationBloc()),
         BlocProvider(create: (_) => OcrBloc()),
@@ -86,7 +88,19 @@ class MyApp extends StatelessWidget {
           path: '/forgot',
           builder: (context, state) => const ForgotPasswordScreen(),
         ),
-        GoRoute(path: '/addNote', builder: (context, state) => const AddNoteScreen()),
+        GoRoute(
+          path: '/addNote',
+          builder: (context, state) => AddNoteScreen(
+            note: Note(
+              id: '',
+              title: '',
+              note: '',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              color: 0xFFFFFFFF,
+            ),
+          ),
+        ),
         GoRoute(path: '/wrapper', builder: (context, state) => const Wrapper()),
       ],
     );

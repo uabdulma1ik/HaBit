@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit/logic/add_note/note_bloc.dart';
+import 'package:habit/screens/add_note/add_note_screen.dart';
+import 'package:habit/screens/home/widgets/note_card.dart';
 import 'package:habit/screens/widgets/custom_dialog/custom_dialog_open_smth.dart';
 import 'package:habit/screens/home/widgets/colour_filter_sheet.dart';
 
@@ -116,29 +120,72 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(width: 15),
             ],
           ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 200,
-                  width: 198,
-                  child: Image.asset(
-                    'assets/images/rafiki.png',
-                    fit: BoxFit.cover,
+          body: BlocBuilder<NoteBloc, NoteState>(
+            builder: (context, state) {
+              if (state is NotesErrorState) {
+                return Center(child: Text('Error: ${state.message}'));
+              }
+              if (state is NotesLoadingState) {
+                return const Center(
+                  child: CircularProgressIndicator(color: Color(0xFFFFB347)),
+                );
+              }
+              if (state is NotesLoadedState) {
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Column(
+                      spacing: 20,
+                      children: state.notes.map((note) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: NoteCard(
+                              note: note,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        AddNoteScreen(note: note),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
+                );
+              }
+
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      width: 198,
+                      child: Image.asset(
+                        'assets/images/rafiki.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Text(
+                      'Create your first note !',
+                      style: GoogleFonts.roboto(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  'Create your first note !',
-                  style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),
