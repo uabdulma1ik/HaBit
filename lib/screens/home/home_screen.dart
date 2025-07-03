@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_masonry_view/flutter_masonry_view.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:habit/logic/add_note/note_bloc.dart';
+import 'package:habit/logic/note/note_bloc.dart';
+import 'package:habit/screens/home/widgets/dialog.dart';
 import 'package:habit/screens/note/note_screen.dart';
 import 'package:habit/screens/home/widgets/note_card.dart';
-import 'package:habit/screens/widgets/custom_dialog/custom_dialog_open_smth.dart';
 import 'package:habit/screens/home/widgets/colour_filter_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,33 +14,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _showImgDialog(BuildContext context) async {
-      await showDialog(
-        context: context,
-        builder: (dialogContext) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            contentPadding: EdgeInsets.zero,
-            content: CustomDialogOpenSmth(
-              topPath: 'assets/icons/keyboard_black.png',
-              topString: 'Add note',
-              bottomPath: 'assets/icons/check_box_black.png',
-              bottomString: 'Add to-do',
-              onTopFunc: () {
-                context.pop();
-                context.push('/addNote');
-              },
-              onBottomFunc: () {
-                context.pop();
-              },
-            ),
-          );
-        },
-      );
-    }
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: const Color(0xFFFFB347),
@@ -67,7 +40,10 @@ class HomeScreen extends StatelessWidget {
             ),
             child: FloatingActionButton(
               onPressed: () {
-                _showImgDialog(context);
+                showDialog(
+                  context: context,
+                  builder: (dialogContext) => const ShowImageDialog(),
+                );
               },
               backgroundColor: const Color(0xFFFFB347),
               elevation: 0,
@@ -76,7 +52,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-
           appBar: AppBar(
             backgroundColor: Colors.white,
             title: Text(
@@ -107,15 +82,35 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 15),
-              SizedBox(
-                height: 24,
-                width: 24,
-                child: Center(
-                  child: Image.asset(
-                    'assets/icons/grid_view.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              BlocBuilder<NoteBloc, NoteState>(
+                builder: (context, state) {
+                  bool isGridView = false;
+                  if (state is NotesLoadedState) {
+                    isGridView = state.isGridView;
+                  }
+
+                  return GestureDetector(
+                    onTap: () {
+                      final currentState = context.read<NoteBloc>().state;
+                      if (currentState is NotesLoadedState) {
+                        context.read<NoteBloc>().add(
+                          ToggleGridViewEvent(!currentState.isGridView),
+                        );
+                      }
+                    },
+                    child: SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: Center(
+                        child: Icon(
+                          isGridView ? Icons.view_list : Icons.grid_view,
+                          size: 24,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
               const SizedBox(width: 15),
             ],
@@ -133,34 +128,59 @@ class HomeScreen extends StatelessWidget {
               if (state is NotesLoadedState) {
                 return SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Column(
-                      spacing: 20,
-                      children: state.notes.map((note) {
-                        return Align(
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            child: NoteCard(
-                              note: note,
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddNoteScreen(note: note),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 16,
                     ),
+                    child: state.isGridView
+                        ? MasonryView(
+                            listOfItem: state.notes,
+                            numberOfColumn: 2,
+                            itemBuilder: (note) {
+                              return Container(
+                                margin: const EdgeInsets.only(bottom: 16),
+                                child: NoteCard(
+                                  note: note,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddNoteScreen(note: note),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          )
+                        : Column(
+                            spacing: 20,
+                            children: state.notes.map((note) {
+                              return Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  child: NoteCard(
+                                    note: note,
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              AddNoteScreen(note: note),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
                   ),
                 );
               }
-
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:habit/logic/add_note/note_bloc.dart';
+import 'package:habit/logic/note/note_bloc.dart';
 
 class ColorPickerDialog extends StatelessWidget {
   final String? noteId;

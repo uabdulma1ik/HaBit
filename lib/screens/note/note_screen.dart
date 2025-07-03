@@ -1,13 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:habit/data/note_model.dart';
-import 'package:habit/logic/add_note/note_bloc.dart';
+import 'package:habit/logic/note/note_bloc.dart';
 import 'package:habit/screens/note/widgets/color_picker_dialog.dart';
 
 class AddNoteScreen extends StatefulWidget {
@@ -122,7 +120,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             ),
                           ),
                           const Spacer(),
-
                           GestureDetector(
                             onTap: () {
                               showDialog(
@@ -145,9 +142,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 40),
-
                       TextField(
                         controller: titleController,
                         textCapitalization: TextCapitalization.words,
@@ -167,9 +162,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 20),
-
                       TextField(
                         controller: noteController,
                         maxLines: null,

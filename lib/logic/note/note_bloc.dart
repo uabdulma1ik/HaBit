@@ -20,10 +20,25 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<AddNoteEvent>(_onAddNote);
     on<UpdateNoteEvent>(_onUpdateNote);
     on<DeleteNoteEvent>(_onDeleteNote);
-    on<SearchNotesEvent>(_onSearchNotes);
-    on<ToggleSearchEvent >(_onToggleSearch);
     on<SelectColorEvent>(_onSelectColor);
     on<ShowColorPickerEvent>(_onShowColorPicker);
+    on<ToggleGridViewEvent>(_onToggleGridView);
+  }
+
+  void _onToggleGridView(ToggleGridViewEvent event, Emitter<NoteState> emit) {
+    if (state is NotesLoadedState) {
+      final currentState = state as NotesLoadedState;
+      emit(
+        NotesLoadedState(
+          currentState.notes,
+          searchQuery: currentState.searchQuery,
+
+          showColorPicker: currentState.showColorPicker,
+          selectedColor: currentState.selectedColor,
+          isGridView: event.isGridView,
+        ),
+      );
+    }
   }
 
   void _initializeAuth() {
@@ -88,8 +103,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     Emitter<NoteState> emit,
   ) async {
     if (state is! NotesLoadedState) {
-      // If not in loaded state, create a new loaded state with the selected color
-      emit(NotesLoadedState([], selectedColor: event.color));
+      emit(NotesLoadedState(const [], selectedColor: event.color));
       return;
     }
 
@@ -98,7 +112,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       NotesLoadedState(
         currentState.notes,
         searchQuery: currentState.searchQuery,
-        isSearching: currentState.isSearching,
+
         showColorPicker: currentState.showColorPicker,
         selectedColor: event.color,
       ),
@@ -116,57 +130,9 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       NotesLoadedState(
         currentState.notes,
         searchQuery: currentState.searchQuery,
-        isSearching: currentState.isSearching,
+
         showColorPicker: event.showPicker,
         selectedColor: currentState.selectedColor,
-      ),
-    );
-  }
-
-  Future<void> _onSearchNotes(
-    SearchNotesEvent event,
-    Emitter<NoteState> emit,
-  ) async {
-    if (state is! NotesLoadedState) return;
-
-    final currentState = state as NotesLoadedState;
-
-    if (event.query.isEmpty) {
-      emit(NotesLoadedState(_allNotes, isSearching: currentState.isSearching));
-      return;
-    }
-
-    final filteredNotes = _allNotes.where((note) {
-      final titleLower = note.title.toLowerCase();
-      final contentLower = note.note.toLowerCase();
-      final queryLower = event.query.toLowerCase();
-
-      return titleLower.contains(queryLower) ||
-          contentLower.contains(queryLower);
-    }).toList();
-
-    emit(
-      NotesLoadedState(
-        filteredNotes,
-        searchQuery: event.query,
-        isSearching: currentState.isSearching,
-      ),
-    );
-  }
-
-  Future<void> _onToggleSearch(
-    ToggleSearchEvent event,
-    Emitter<NoteState> emit,
-  ) async {
-    if (state is! NotesLoadedState) return;
-
-    final currentState = state as NotesLoadedState;
-
-    emit(
-      NotesLoadedState(
-        event.isSearching ? _allNotes : currentState.notes,
-        searchQuery: event.isSearching ? null : currentState.searchQuery,
-        isSearching: event.isSearching,
       ),
     );
   }

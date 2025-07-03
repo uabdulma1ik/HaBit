@@ -45,15 +45,6 @@ class SearchNotesEvent extends NoteEvent {
   List<Object> get props => [query];
 }
 
-class ToggleSearchEvent extends NoteEvent {
-  final bool isSearching;
-
-  const ToggleSearchEvent(this.isSearching);
-
-  @override
-  List<Object> get props => [isSearching];
-}
-
 class SelectColorEvent extends NoteEvent {
   final int color;
 
@@ -70,4 +61,13 @@ class ShowColorPickerEvent extends NoteEvent {
 
   @override
   List<Object> get props => [showPicker];
+}
+
+class ToggleGridViewEvent extends NoteEvent {
+  final bool isGridView;
+
+  const ToggleGridViewEvent(this.isGridView);
+
+  @override
+  List<Object> get props => [isGridView];
 }
