@@ -17,11 +17,11 @@ class ShowImageDialog extends StatelessWidget {
         bottomString: 'Add to-do',
         onTopFunc: () {
           context.pop();
-          context.push('/addNote');
+          context.push('/note');
         },
         onBottomFunc: () {
           context.pop();
-         
+          // context.push('/todo');
         },
       ),
     );

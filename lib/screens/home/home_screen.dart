@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:habit/logic/note/note_bloc.dart';
 import 'package:habit/screens/home/widgets/dialog.dart';
 import 'package:habit/screens/note/note_screen.dart';
-import 'package:habit/screens/home/widgets/note_card.dart';
+import 'package:habit/screens/note/widgets/note_card.dart';
 import 'package:habit/screens/home/widgets/colour_filter_sheet.dart';
 
 class HomeScreen extends StatelessWidget {

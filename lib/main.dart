@@ -87,8 +87,9 @@ class MyApp extends StatelessWidget {
           path: '/forgot',
           builder: (context, state) => const ForgotPasswordScreen(),
         ),
+
         GoRoute(
-          path: '/addNote',
+          path: '/note',
           builder: (context, state) => AddNoteScreen(
             note: Note(
               id: '',
