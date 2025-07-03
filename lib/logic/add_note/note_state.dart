@@ -13,11 +13,25 @@ class NotesLoadedState extends NoteState {
   final List<Note> notes;
   final String? searchQuery;
   final bool isSearching;
+  final bool showColorPicker;
+  final int selectedColor;
 
-  const NotesLoadedState(this.notes, {this.searchQuery, this.isSearching = false});
+  const NotesLoadedState(
+    this.notes, {
+    this.searchQuery,
+    this.isSearching = false,
+    this.showColorPicker = false,
+    this.selectedColor = 0xFFFFFFFF,
+  });
 
   @override
-  List<Object> get props => [notes, searchQuery ?? '', isSearching];
+  List<Object> get props => [
+    notes,
+    searchQuery ?? '',
+    isSearching,
+    showColorPicker,
+    selectedColor,
+  ];
 }
 
 class NotesErrorState extends NoteState {

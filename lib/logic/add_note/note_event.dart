@@ -53,3 +53,21 @@ class ToggleSearchEvent extends NoteEvent {
   @override
   List<Object> get props => [isSearching];
 }
+
+class SelectColorEvent extends NoteEvent {
+  final int color;
+
+  const SelectColorEvent(this.color);
+
+  @override
+  List<Object> get props => [color];
+}
+
+class ShowColorPickerEvent extends NoteEvent {
+  final bool showPicker;
+
+  const ShowColorPickerEvent(this.showPicker);
+
+  @override
+  List<Object> get props => [showPicker];
+}

@@ -13,7 +13,7 @@ import 'package:habit/logic/navigation/navigation_bar_bloc.dart';
 import 'package:habit/logic/onBoarding/onboarding_bloc.dart';
 import 'package:habit/screens/OCR/ocr_screen.dart';
 import 'package:habit/screens/about/about_screen.dart';
-import 'package:habit/screens/add_note/add_note_screen.dart';
+import 'package:habit/screens/note/note_screen.dart';
 import 'package:habit/screens/auth/Log_in/log_in_screen.dart';
 import 'package:habit/screens/auth/create_account/create_account_screen.dart';
 import 'package:habit/screens/auth/forgot_password/forgot_password_screen.dart';

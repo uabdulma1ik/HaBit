@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:habit/data/note_model.dart';
 import 'package:habit/logic/add_note/note_bloc.dart';
+import 'package:habit/screens/note/widgets/color_picker_dialog.dart';
 
 class AddNoteScreen extends StatefulWidget {
   final Note note;
@@ -46,6 +47,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: PopScope(
+        canPop: false,
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
@@ -61,24 +63,35 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              final newNote = Note(
-                                id: note.id,
-                                title: titleController.text.trim(),
-                                note: noteController.text.trim(),
-                                createdAt: note.id.isEmpty
-                                    ? DateTime.now()
-                                    : note.createdAt,
-                                updatedAt: DateTime.now(),
-                                color: color,
-                              );
-                              if (note.id.isEmpty) {
-                                context.read<NoteBloc>().add(
-                                  AddNoteEvent(newNote),
+                              if (titleController.text.trim() !=
+                                      note.title.trim() ||
+                                  noteController.text.trim() !=
+                                      note.note.trim()) {
+                                final currentState =
+                                    context.read<NoteBloc>().state
+                                        as NotesLoadedState;
+
+                                final newNote = Note(
+                                  id: note.id,
+                                  title: titleController.text.trim(),
+                                  note: noteController.text.trim(),
+                                  createdAt: note.id.isEmpty
+                                      ? DateTime.now()
+                                      : note.createdAt,
+                                  updatedAt: DateTime.now(),
+                                  color: currentState
+                                      .selectedColor, // Use selected color from state
                                 );
-                              } else {
-                                context.read<NoteBloc>().add(
-                                  UpdateNoteEvent(newNote),
-                                );
+
+                                if (note.id.isEmpty) {
+                                  context.read<NoteBloc>().add(
+                                    AddNoteEvent(newNote),
+                                  );
+                                } else {
+                                  context.read<NoteBloc>().add(
+                                    UpdateNoteEvent(newNote),
+                                  );
+                                }
                               }
                               context.pop();
                             },
@@ -102,7 +115,16 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           ),
                           const Spacer(),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ColorPickerDialog(
+                                    noteId: note.id.isNotEmpty ? note.id : null,
+                                  );
+                                },
+                              );
+                            },
                             child: SizedBox(
                               height: 24,
                               width: 24,
@@ -125,6 +147,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           fontSize: 42,
                           fontWeight: FontWeight.w600,
                         ),
+                        maxLines: null, // Allow multiple lines if needed
+                        keyboardType:
+                            TextInputType.multiline, // Enable multiline input
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Title',

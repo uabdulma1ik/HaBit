@@ -22,6 +22,8 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     on<DeleteNoteEvent>(_onDeleteNote);
     on<SearchNotesEvent>(_onSearchNotes);
     on<ToggleSearchEvent>(_onToggleSearch);
+    on<SelectColorEvent>(_onSelectColor);
+    on<ShowColorPickerEvent>(_onShowColorPicker);
   }
 
   void _initializeAuth() {
@@ -29,16 +31,13 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       User? user,
     ) {
       if (user != null) {
-        // Foydalanuvchi kirganda
         notesCollection = FirebaseFirestore.instance
             .collection('notes')
             .doc(user.uid)
             .collection('user_notes');
 
-        // Noteslarni avtomatik yuklash
         add(LoadNotesEvent());
       } else {
-        // Foydalanuvchi chiqganda
         notesCollection = null;
         _allNotes.clear();
       }
@@ -71,10 +70,53 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         );
       }).toList();
 
-      emit(NotesLoadedState(_allNotes));
+      emit(
+        NotesLoadedState(
+          _allNotes,
+          selectedColor: _allNotes.isNotEmpty
+              ? _allNotes.first.color
+              : 0xFFFFFFFF,
+        ),
+      );
     } catch (e) {
       emit(NotesErrorState('Failed to load notes: $e'));
     }
+  }
+
+  Future<void> _onSelectColor(
+    SelectColorEvent event,
+    Emitter<NoteState> emit,
+  ) async {
+    if (state is! NotesLoadedState) return;
+
+    final currentState = state as NotesLoadedState;
+    emit(
+      NotesLoadedState(
+        currentState.notes,
+        searchQuery: currentState.searchQuery,
+        isSearching: currentState.isSearching,
+        showColorPicker: currentState.showColorPicker,
+        selectedColor: event.color,
+      ),
+    );
+  }
+
+  Future<void> _onShowColorPicker(
+    ShowColorPickerEvent event,
+    Emitter<NoteState> emit,
+  ) async {
+    if (state is! NotesLoadedState) return;
+
+    final currentState = state as NotesLoadedState;
+    emit(
+      NotesLoadedState(
+        currentState.notes,
+        searchQuery: currentState.searchQuery,
+        isSearching: currentState.isSearching,
+        showColorPicker: event.showPicker,
+        selectedColor: currentState.selectedColor,
+      ),
+    );
   }
 
   Future<void> _onSearchNotes(
@@ -175,7 +217,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   @override
   Future<void> close() {
-    // Memory leak oldini olish
     _authSubscription?.cancel();
     return super.close();
   }

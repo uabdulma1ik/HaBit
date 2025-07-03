@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit/logic/add_note/note_bloc.dart';
-import 'package:habit/screens/add_note/add_note_screen.dart';
+import 'package:habit/screens/note/note_screen.dart';
 import 'package:habit/screens/home/widgets/note_card.dart';
 import 'package:habit/screens/widgets/custom_dialog/custom_dialog_open_smth.dart';
 import 'package:habit/screens/home/widgets/colour_filter_sheet.dart';
