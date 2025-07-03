@@ -12,18 +12,18 @@ import 'package:habit/logic/my_profile/my_profile_event.dart';
 import 'package:habit/logic/navigation/navigation_bar_bloc.dart';
 import 'package:habit/logic/onBoarding/onboarding_bloc.dart';
 import 'package:habit/screens/OCR/ocr_screen.dart';
-import 'package:habit/screens/about/about_screen.dart';
+import 'package:habit/screens/sec_screens/about/about_screen.dart';
 import 'package:habit/screens/note/note_screen.dart';
 import 'package:habit/screens/auth/Log_in/log_in_screen.dart';
 import 'package:habit/screens/auth/create_account/create_account_screen.dart';
 import 'package:habit/screens/auth/forgot_password/forgot_password_screen.dart';
-import 'package:habit/screens/splash/splash_screen.dart';
-import 'package:habit/screens/wrapper/wrapper.dart';
-import 'package:habit/screens/help/help_screen.dart';
-import 'package:habit/screens/nav_bar/navigation.dart';
-import 'package:habit/screens/myProfile/myProfile_screen.dart';
-import 'package:habit/screens/onBoarding/onBoarding_screen.dart';
-import 'package:habit/screens/settings/settings_screen.dart';
+import 'package:habit/screens/sec_screens/splash/splash_screen.dart';
+import 'package:habit/screens/sec_screens/wrapper/wrapper.dart';
+import 'package:habit/screens/sec_screens/help/help_screen.dart';
+import 'package:habit/screens/sec_screens/nav_bar/navigation.dart';
+import 'package:habit/screens/sec_screens/myProfile/myProfile_screen.dart';
+import 'package:habit/screens/sec_screens/onBoarding/onBoarding_screen.dart';
+import 'package:habit/screens/sec_screens/settings/settings_screen.dart';
 import 'package:habit/services/auth_service/auth_service.dart';
 
 void main() async {

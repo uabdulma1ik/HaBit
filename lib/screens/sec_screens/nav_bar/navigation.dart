@@ -4,9 +4,9 @@ import 'package:habit/logic/navigation/navigation_bar_bloc.dart';
 import 'package:habit/logic/navigation/navigation_bar_event.dart';
 import 'package:habit/logic/navigation/navigation_bar_state.dart';
 import 'package:habit/screens/OCR/ocr_screen.dart';
-import 'package:habit/screens/help/help_screen.dart';
+import 'package:habit/screens/sec_screens/help/help_screen.dart';
 import 'package:habit/screens/home/home_screen.dart';
-import 'package:habit/screens/myProfile/myProfile_screen.dart';
+import 'package:habit/screens/sec_screens/myProfile/myProfile_screen.dart';
 import 'package:indicator_bottom_navigationbar/indicator_bottom_navigationbar.dart';
 
 

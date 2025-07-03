@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:habit/screens/nav_bar/navigation.dart';
-import 'package:habit/screens/onBoarding/onBoarding_screen.dart';
+import 'package:habit/screens/sec_screens/nav_bar/navigation.dart';
+import 'package:habit/screens/sec_screens/onBoarding/onBoarding_screen.dart';
 
 
 class Wrapper extends StatelessWidget {
